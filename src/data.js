@@ -46,7 +46,7 @@ export const locations = [
     x: "43.9%",
     y: "39%",
 
-    url: "https://my.matterport.com/show/?m=xxxxx",
+    url: "https://nhahangtruclam.metaart.vn/",
 
     description: "Khu vực checkin hoa nổi bật.",
 
@@ -73,7 +73,7 @@ export const locations = [
     x: "44%",
     y: "60.4%",
 
-    url: "https://my.matterport.com/show/?m=yyyyy",
+    url: "https://baotanglichsuquocgia.metaart.vn/",
 
     description: "Khu tượng đài trung tâm.",
 
