@@ -432,3 +432,183 @@ body {
     padding: 18px;
   }
 }
+/* =========================================
+   MARZIPANO VIEWER
+========================================= */
+
+.marzipano-viewer {
+  width: 100%;
+  height: 100vh;
+}
+
+/* =========================================
+   HOTSPOT
+========================================= */
+
+.image-hotspot {
+  position: relative;
+
+  cursor: pointer;
+}
+
+/* =========================================
+   WRAPPER
+========================================= */
+
+.bubble-wrapper {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  animation: floatBubble 3s ease-in-out infinite;
+
+  transition: 0.3s;
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.bubble-label {
+  margin-bottom: 14px;
+
+  color: white;
+
+  font-size: 22px;
+
+  font-weight: bold;
+
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 1),
+    0 0 20px rgba(0, 0, 0, 0.9);
+
+  white-space: nowrap;
+}
+
+/* =========================================
+   GLOW
+========================================= */
+
+.bubble-glow {
+  position: absolute;
+
+  top: 50px;
+
+  width: 110px;
+  height: 110px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(rgba(255, 255, 255, 0.5), transparent);
+
+  filter: blur(14px);
+
+  animation: glowPulse 2s infinite;
+}
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.bubble-image {
+  width: 95px;
+  height: 95px;
+
+  border-radius: 50%;
+
+  overflow: hidden;
+
+  border: 5px solid white;
+
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 1),
+    0 0 50px rgba(255, 255, 255, 0.7);
+
+  position: relative;
+
+  z-index: 2;
+
+  transition: 0.35s;
+}
+
+/* IMAGE */
+
+.bubble-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* =========================================
+   HOVER
+========================================= */
+
+.image-hotspot:hover .bubble-image {
+  transform: scale(1.15);
+}
+
+.image-hotspot:hover .bubble-wrapper {
+  transform: scale(1.08);
+}
+
+/* =========================================
+   FLOAT
+========================================= */
+
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* =========================================
+   GLOW PULSE
+========================================= */
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  .bubble-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .bubble-glow {
+    width: 90px;
+    height: 90px;
+  }
+
+  .bubble-label {
+    font-size: 15px;
+  }
+}

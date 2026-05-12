@@ -130,6 +130,8 @@ export const locations = [
 
         yaw: 120,
 
+        preview: "/images/lake.jpg",
+
         audio: "/audio/boat-guide.mp3",
       },
 
@@ -142,7 +144,45 @@ export const locations = [
 
         yaw: 220,
 
+        preview: "/images/sphere.jpg",
+
         audio: "/audio/flower-guide.mp3",
+      },
+    ],
+  },
+
+  {
+    id: 5,
+
+    slug: "lake",
+
+    type: "panorama",
+
+    name: "Hồ Trung Tâm",
+
+    x: "84%",
+
+    y: "42.5%",
+
+    image: "https://pannellum.org/images/alma.jpg",
+
+    description: "Panorama 360 khu hồ trung tâm.",
+
+    audio: "/audio/lake.mp3",
+
+    nearby: [
+      {
+        name: "Tượng đài",
+
+        direction: "← Đi bên trái khoảng 80m",
+
+        pitch: 10,
+
+        yaw: 120,
+
+        preview: "/images/lake.jpg",
+
+        audio: "/audio/boat-guide.mp3",
       },
     ],
   },

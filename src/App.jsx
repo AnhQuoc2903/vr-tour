@@ -4,11 +4,10 @@
 
 import { useEffect, useState } from "react";
 
-import { Pannellum } from "pannellum-react";
-
 import { locations } from "./data";
 
 import "./App.css";
+import MarzipanoViewer from "./components/MarzipanoViewer";
 
 export default function App() {
   const [current, setCurrent] = useState(locations[0]);
@@ -43,18 +42,11 @@ export default function App() {
         {current.type === "matterport" ? (
           <iframe title="matterport" src={current.url} allowFullScreen />
         ) : (
-          <Pannellum
-            width="100%"
-            height="100vh"
-            image={current.image}
-            pitch={10}
-            yaw={180}
-            hfov={110}
-            autoLoad
-            autoRotate={-2}
-            showZoomCtrl
-            showFullscreenCtrl
-          ></Pannellum>
+          <MarzipanoViewer
+            scene={current}
+            locations={locations}
+            onNavigate={setCurrent}
+          />
         )}
       </div>
 
