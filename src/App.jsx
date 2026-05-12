@@ -4,6 +4,8 @@
 
 import { useEffect, useState } from "react";
 
+import { Pannellum } from "pannellum-react";
+
 import { locations } from "./data";
 
 import "./App.css";
@@ -38,7 +40,22 @@ export default function App() {
       {/* VIEWER */}
 
       <div className="viewer">
-        <iframe title="matterport" src={current.url} allowFullScreen />
+        {current.type === "matterport" ? (
+          <iframe title="matterport" src={current.url} allowFullScreen />
+        ) : (
+          <Pannellum
+            width="100%"
+            height="100vh"
+            image={current.image}
+            pitch={10}
+            yaw={180}
+            hfov={110}
+            autoLoad
+            autoRotate={-2}
+            showZoomCtrl
+            showFullscreenCtrl
+          ></Pannellum>
+        )}
       </div>
 
       {/* INFO PANEL */}
@@ -138,7 +155,7 @@ export default function App() {
 
                 <p>{item.direction}</p>
 
-                <audio controls src={item.audio} />
+                {item.audio && <audio controls src={item.audio} />}
               </div>
             ))}
           </div>

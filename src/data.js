@@ -6,9 +6,12 @@ export const locations = [
 
     slug: "boat",
 
+    type: "matterport",
+
     name: "Bến thuyền",
 
     x: "51.4%",
+
     y: "11.8%",
 
     url: "https://my.matterport.com/show/?m=SxQL3iGyoDo",
@@ -41,12 +44,15 @@ export const locations = [
 
     slug: "flower",
 
+    type: "matterport",
+
     name: "Vườn hoa",
 
     x: "43.9%",
+
     y: "39%",
 
-    url: "https://nhahangtruclam.metaart.vn/",
+    url: "https://mpembed.com/show/?m=3sqakaY2UWT&mpu=826",
 
     description: "Khu vực checkin hoa nổi bật.",
 
@@ -68,12 +74,15 @@ export const locations = [
 
     slug: "statue",
 
+    type: "matterport",
+
     name: "Tượng đài",
 
     x: "44%",
+
     y: "60.4%",
 
-    url: "https://baotanglichsuquocgia.metaart.vn/",
+    url: "https://my.matterport.com/show/?m=EZK6zFRUefb",
 
     description: "Khu tượng đài trung tâm.",
 
@@ -86,6 +95,54 @@ export const locations = [
         direction: "↓ Đi xuống khoảng 150m",
 
         audio: "/audio/boat-guide.mp3",
+      },
+    ],
+  },
+
+  /* PANORAMA 360 */
+
+  {
+    id: 4,
+
+    slug: "lake",
+
+    type: "panorama",
+
+    name: "Hồ Trung Tâm",
+
+    x: "74%",
+
+    y: "42.5%",
+
+    image: "https://pannellum.org/images/alma.jpg",
+
+    description: "Panorama 360 khu hồ trung tâm.",
+
+    audio: "/audio/lake.mp3",
+
+    nearby: [
+      {
+        name: "Bến thuyền",
+
+        direction: "← Đi bên trái khoảng 80m",
+
+        pitch: 10,
+
+        yaw: 120,
+
+        audio: "/audio/boat-guide.mp3",
+      },
+
+      {
+        name: "Vườn hoa",
+
+        direction: "↑ Đi thẳng khoảng 150m",
+
+        pitch: -2,
+
+        yaw: 220,
+
+        audio: "/audio/flower-guide.mp3",
       },
     ],
   },
