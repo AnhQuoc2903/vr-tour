@@ -15,7 +15,7 @@ export default function App() {
 
   const [showMap, setShowMap] = useState(true);
 
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
 
   const [zoom, setZoom] = useState(1);
 
@@ -103,32 +103,37 @@ export default function App() {
           />
         )}
       </div>
+      {!cleanView && (
+        <div className={`info-panel ${showInfo ? "show" : ""}`}>
+          <h2>{current.name}</h2>
 
-      <div className={`info-panel ${showInfo ? "show" : ""}`}>
-        <h2>{current.name}</h2>
+          <p className="description">{current.description}</p>
 
-        <p className="description">{current.description}</p>
+          {/* AUDIO */}
 
-        {/* AUDIO */}
+          <audio ref={audioRef}>
+            <source src={current.audio} type="audio/mpeg" />
+          </audio>
 
-        <audio ref={audioRef}>
-          <source src={current.audio} type="audio/mpeg" />
-        </audio>
+          <button className="audio-toggle" onClick={toggleAudio}>
+            {audioEnabled ? "🔊" : "🔇"}
+          </button>
+        </div>
+      )}
 
-        <button className="audio-toggle" onClick={toggleAudio}>
-          {audioEnabled ? "🔊" : "🔇"}
+      {!cleanView && (
+        <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
+          {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
         </button>
-      </div>
+      )}
 
-      <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
-        {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
-      </button>
+      {!cleanView && (
+        <div className="mobile-actions">
+          <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
 
-      <div className="mobile-actions">
-        <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
-
-        <button onClick={() => setShowMap(!showMap)}>🗺️</button>
-      </div>
+          <button onClick={() => setShowMap(!showMap)}>🗺️</button>
+        </div>
+      )}
 
       <button className="clean-view-btn" onClick={toggleFullscreen}>
         {cleanView ? "❌" : "⛶"}
@@ -136,7 +141,7 @@ export default function App() {
 
       {/* MINIMAP */}
 
-      {showMap && (
+      {showMap && !cleanView && (
         <div className="minimap">
           {/* ZOOM */}
 

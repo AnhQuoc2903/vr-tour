@@ -378,112 +378,6 @@ body {
 
 /* MOBILE */
 
-@media (max-width: 768px) {
-  /* HIDE DESKTOP BUTTON */
-
-  /* MOBILE ACTIONS */
-
-  .mobile-actions {
-    position: fixed;
-
-    left: 16px;
-    bottom: 16px;
-
-    z-index: 999;
-
-    display: flex;
-
-    gap: 12px;
-  }
-
-  .mobile-actions button {
-    width: 52px;
-    height: 52px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: rgba(0, 0, 0, 0.7);
-
-    color: white;
-
-    font-size: 22px;
-
-    cursor: pointer;
-
-    backdrop-filter: blur(8px);
-  }
-
-  /* INFO PANEL */
-
-  .info-panel {
-    top: 12px;
-    left: 12px;
-
-    width: 180px;
-
-    padding: 14px;
-
-    border-radius: 16px;
-
-    font-size: 12px;
-
-    transform: translateX(-120%);
-
-    transition: 0.3s;
-  }
-
-  .info-panel.show {
-    transform: translateX(0);
-  }
-
-  .info-panel h2 {
-    font-size: 18px;
-  }
-
-  .description {
-    margin-top: 6px;
-
-    line-height: 1.4;
-  }
-
-  .guide-btn {
-    margin-top: 12px;
-
-    padding: 10px;
-
-    font-size: 12px;
-  }
-
-  /* MINIMAP */
-
-  .minimap {
-    width: 350px;
-
-    max-height: 240px;
-
-    margin-right: -15px;
-
-    bottom: 80px;
-  }
-
-  /* POINT */
-
-  .point {
-    font-size: 14px;
-  }
-
-  /* CURRENT DOT */
-
-  /* GUIDE POPUP */
-
-  .guide-popup {
-    width: 92%;
-
-    padding: 18px;
-  }
-}
 /* =========================================
    MARZIPANO VIEWER
 ========================================= */
@@ -662,22 +556,6 @@ body {
    MOBILE
 ========================================= */
 
-@media (max-width: 768px) {
-  .bubble-image {
-    width: 110px;
-    height: 100px;
-  }
-
-  .bubble-glow {
-    width: 110px;
-    height: 110px;
-  }
-
-  .bubble-label {
-    font-size: 18px;
-  }
-}
-
 /* =========================================
    AUDIO TOGGLE
 ========================================= */
@@ -720,15 +598,6 @@ body {
 }
 
 /* MOBILE */
-
-@media (max-width: 768px) {
-  .audio-toggle {
-    width: 48px;
-    height: 48px;
-
-    font-size: 22px;
-  }
-}
 
 /* =========================================
    TOOLTIP
@@ -787,26 +656,6 @@ body {
   cursor: grabbing !important;
 }
 
-@media (max-width: 768px) {
-  .bubble-tooltip {
-    opacity: 1;
-
-    top: 135px;
-
-    font-size: 12px;
-
-    padding: 8px 12px;
-
-    white-space: normal;
-
-    width: max-content;
-
-    max-width: 160px;
-
-    text-align: center;
-  }
-}
-
 .clean-view-btn {
   position: fixed;
   left: 18px;
@@ -838,16 +687,6 @@ body {
   transform: scale(1.08);
 }
 
-@media (max-width: 768px) {
-  .clean-view-btn {
-    left: auto;
-
-    right: 10px;
-
-    bottom: 20px;
-  }
-}
-
 /* =========================
    ANDROID FIX
 ========================= */
@@ -862,13 +701,18 @@ body {
 
 .mobile-actions,
 .clean-view-btn,
-.minimap,
-.info-panel {
+.minimap {
   position: fixed !important;
 
   z-index: 999999 !important;
 
   transform: translate3d(0, 0, 9999px);
+}
+
+/* INFO PANEL */
+
+.info-panel {
+  z-index: 999999 !important;
 }
 
 /* FIX GPU */
@@ -887,5 +731,152 @@ body {
   .clean-view-btn,
   .minimap {
     backdrop-filter: none !important;
+  }
+
+  .toggle-map-btn {
+    display: none;
+  }
+  .bubble-image {
+    width: 110px;
+    height: 100px;
+  }
+
+  .bubble-glow {
+    width: 110px;
+    height: 110px;
+  }
+
+  .bubble-label {
+    font-size: 18px;
+  }
+  .clean-view-btn {
+    left: auto;
+
+    right: 10px;
+
+    bottom: 20px;
+  }
+  .bubble-tooltip {
+    opacity: 1;
+
+    top: 135px;
+
+    font-size: 12px;
+
+    padding: 8px 12px;
+
+    white-space: normal;
+
+    width: max-content;
+
+    max-width: 160px;
+
+    text-align: center;
+  }
+  .audio-toggle {
+    width: 48px;
+    height: 48px;
+
+    font-size: 22px;
+  }
+  .mobile-actions {
+    position: fixed;
+
+    left: 16px;
+    bottom: 16px;
+
+    z-index: 999;
+
+    display: flex;
+
+    gap: 12px;
+  }
+
+  .mobile-actions button {
+    width: 52px;
+    height: 52px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0, 0, 0, 0.7);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(8px);
+  }
+
+  /* INFO PANEL */
+
+  .info-panel {
+    top: 12px;
+    left: 12px;
+
+    width: 180px;
+
+    padding: 14px;
+
+    border-radius: 16px;
+
+    font-size: 12px;
+
+    transform: translateX(-120%);
+
+    transition: 0.3s;
+  }
+
+  .info-panel.show {
+    transform: translateX(0);
+  }
+
+  .info-panel h2 {
+    font-size: 18px;
+  }
+
+  .description {
+    margin-top: 6px;
+
+    line-height: 1.4;
+  }
+
+  .guide-btn {
+    margin-top: 12px;
+
+    padding: 10px;
+
+    font-size: 12px;
+  }
+
+  /* MINIMAP */
+
+  .minimap {
+    width: 350px;
+
+    max-height: 240px;
+
+    margin-right: -15px;
+
+    bottom: 80px;
+  }
+
+  /* POINT */
+
+  .point {
+    font-size: 14px;
+  }
+
+  /* CURRENT DOT */
+
+  /* GUIDE POPUP */
+
+  .guide-popup {
+    width: 92%;
+
+    padding: 18px;
   }
 }
