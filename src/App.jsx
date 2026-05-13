@@ -104,29 +104,25 @@ export default function App() {
         )}
       </div>
 
-      {!cleanView && (
-        <div className={`info-panel ${showInfo ? "show" : ""}`}>
-          <h2>{current.name}</h2>
+      <div className={`info-panel ${showInfo ? "show" : ""}`}>
+        <h2>{current.name}</h2>
 
-          <p className="description">{current.description}</p>
+        <p className="description">{current.description}</p>
 
-          {/* AUDIO */}
+        {/* AUDIO */}
 
-          <audio ref={audioRef}>
-            <source src={current.audio} type="audio/mpeg" />
-          </audio>
+        <audio ref={audioRef}>
+          <source src={current.audio} type="audio/mpeg" />
+        </audio>
 
-          <button className="audio-toggle" onClick={toggleAudio}>
-            {audioEnabled ? "🔊" : "🔇"}
-          </button>
-        </div>
-      )}
-
-      {!cleanView && (
-        <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
-          {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
+        <button className="audio-toggle" onClick={toggleAudio}>
+          {audioEnabled ? "🔊" : "🔇"}
         </button>
-      )}
+      </div>
+
+      <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
+        {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
+      </button>
 
       <div className="mobile-actions">
         <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
@@ -140,7 +136,7 @@ export default function App() {
 
       {/* MINIMAP */}
 
-      {showMap && !cleanView && (
+      {showMap && (
         <div className="minimap">
           {/* ZOOM */}
 
