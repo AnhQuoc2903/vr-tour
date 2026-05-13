@@ -134,11 +134,7 @@ export default function App() {
         <button onClick={() => setShowMap(!showMap)}>🗺️</button>
       </div>
 
-      <button
-        className="clean-view-btn"
-        onClick={() => setShowMap(!showMap)}
-        onClick={toggleFullscreen}
-      >
+      <button className="clean-view-btn" onClick={toggleFullscreen}>
         {cleanView ? "❌" : "⛶"}
       </button>
 
