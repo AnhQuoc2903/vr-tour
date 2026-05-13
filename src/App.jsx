@@ -2,23 +2,28 @@
 
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { locations } from "./data";
 
 import "./App.css";
+
 import MarzipanoViewer from "./components/MarzipanoViewer";
 
 export default function App() {
   const [current, setCurrent] = useState(locations[0]);
-
-  const [showGuide, setShowGuide] = useState(false);
 
   const [showMap, setShowMap] = useState(true);
 
   const [showInfo, setShowInfo] = useState(false);
 
   const [zoom, setZoom] = useState(1);
+
+  const [audioEnabled, setAudioEnabled] = useState(true);
+
+  const [cleanView, setCleanView] = useState(false);
+
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -34,8 +39,57 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    audioRef.current.pause();
+
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.load();
+
+    if (audioEnabled) {
+      audioRef.current.play().catch(() => {});
+    }
+  }, [current, audioEnabled]);
+
+  const handleNavigate = useCallback((location) => {
+    window.history.pushState({}, "", `/?location=${location.slug}`);
+
+    setCurrent(location);
+  }, []);
+
+  const toggleAudio = () => {
+    if (!audioRef.current) return;
+
+    if (audioEnabled) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch(() => {});
+    }
+
+    setAudioEnabled(!audioEnabled);
+  };
+
+  // FULLSCREEN
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+
+        setCleanView(true);
+      } else {
+        await document.exitFullscreen();
+
+        setCleanView(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <div className="app">
+    <div className={`app ${cleanView ? "clean-mode" : ""}`}>
       {/* VIEWER */}
 
       <div className="viewer">
@@ -45,42 +99,54 @@ export default function App() {
           <MarzipanoViewer
             scene={current}
             locations={locations}
-            onNavigate={setCurrent}
+            onNavigate={handleNavigate}
           />
         )}
       </div>
 
-      {/* INFO PANEL */}
+      {!cleanView && (
+        <div className={`info-panel ${showInfo ? "show" : ""}`}>
+          <h2>{current.name}</h2>
 
-      <div className={`info-panel ${showInfo ? "show" : ""}`}>
-        <h2>{current.name}</h2>
+          <p className="description">{current.description}</p>
 
-        <p className="description">{current.description}</p>
+          {/* AUDIO */}
 
-        <audio controls src={current.audio} />
+          <audio ref={audioRef}>
+            <source src={current.audio} type="audio/mpeg" />
+          </audio>
 
-        <button className="guide-btn" onClick={() => setShowGuide(true)}>
-          Hướng Dẫn Di Chuyển
+          <button className="audio-toggle" onClick={toggleAudio}>
+            {audioEnabled ? "🔊" : "🔇"}
+          </button>
+        </div>
+      )}
+
+      {!cleanView && (
+        <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
+          {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
         </button>
-      </div>
+      )}
 
-      {/* DESKTOP TOGGLE */}
+      {!cleanView && (
+        <div className="mobile-actions">
+          <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
 
-      <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
-        {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
+          <button onClick={() => setShowMap(!showMap)}>🗺️</button>
+        </div>
+      )}
+
+      <button
+        className="clean-view-btn"
+        onClick={() => setShowMap(!showMap)}
+        onClick={toggleFullscreen}
+      >
+        {cleanView ? "❌" : "⛶"}
       </button>
-
-      {/* MOBILE ACTIONS */}
-
-      <div className="mobile-actions">
-        <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
-
-        <button onClick={() => setShowMap(!showMap)}>🗺️</button>
-      </div>
 
       {/* MINIMAP */}
 
-      {showMap && (
+      {showMap && !cleanView && (
         <div className="minimap">
           {/* ZOOM */}
 
@@ -101,7 +167,7 @@ export default function App() {
           >
             <img src="/map.png" alt="map" className="map-image" />
 
-            {/* CURRENT DOT */}
+            {/* CURRENT */}
 
             <div
               className="current-dot"
@@ -111,7 +177,7 @@ export default function App() {
               }}
             />
 
-            {/* ALL POINTS */}
+            {/* POINTS */}
 
             {locations.map((item) => (
               <button
@@ -121,34 +187,10 @@ export default function App() {
                   left: item.x,
                   top: item.y,
                 }}
-                onClick={() => setCurrent(item)}
+                onClick={() => handleNavigate(item)}
               >
                 ●
               </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* GUIDE POPUP */}
-
-      {showGuide && (
-        <div className="guide-overlay">
-          <div className="guide-popup">
-            <button className="close-btn" onClick={() => setShowGuide(false)}>
-              ✕
-            </button>
-
-            <h2>Địa điểm lân cận</h2>
-
-            {current.nearby.map((item) => (
-              <div key={item.name} className="nearby-card">
-                <h3>{item.name}</h3>
-
-                <p>{item.direction}</p>
-
-                {item.audio && <audio controls src={item.audio} />}
-              </div>
             ))}
           </div>
         </div>

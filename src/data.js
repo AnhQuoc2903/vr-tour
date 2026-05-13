@@ -6,7 +6,7 @@ export const locations = [
 
     slug: "boat",
 
-    type: "matterport",
+    type: "panorama",
 
     name: "Bến thuyền",
 
@@ -14,27 +14,42 @@ export const locations = [
 
     y: "11.8%",
 
-    url: "https://my.matterport.com/show/?m=SxQL3iGyoDo",
-
-    description: "Khu chèo thuyền đạp vịt nổi bật tại Thung lũng Tình Yêu.",
+    image: "/360/1.jpg",
 
     audio: "/audio/boat.mp3",
+    description: "Khu vực checkin nổi bật.",
 
     nearby: [
       {
-        name: "Vườn hoa",
+        name: "Tượng đài",
 
-        direction: "← Di chuyển bên trái khoảng 100m",
+        pitch: 3,
 
-        audio: "/audio/flower-guide.mp3",
+        yaw: 146,
+
+        preview: "/preview/lake.jpg",
+        direction: "Đi thẳng 500m ",
       },
 
       {
-        name: "Tượng đài",
+        name: "Vườn hoa",
 
-        direction: "↑ Đi thẳng khoảng 200m",
+        pitch: -10,
 
-        audio: "/audio/statue-guide.mp3",
+        yaw: 273,
+
+        preview: "/preview/sphere.jpg",
+        direction: "Cách khoảng 500m bên phải",
+      },
+      {
+        name: "Hồ Trung Tâm",
+
+        pitch: -5,
+
+        yaw: -281.5,
+
+        preview: "/preview/sphere.jpg",
+        direction: "Cách khoảng 500m bên trái",
       },
     ],
   },
@@ -44,7 +59,7 @@ export const locations = [
 
     slug: "flower",
 
-    type: "matterport",
+    type: "panorama",
 
     name: "Vườn hoa",
 
@@ -52,7 +67,7 @@ export const locations = [
 
     y: "39%",
 
-    url: "https://mpembed.com/show/?m=3sqakaY2UWT&mpu=826",
+    image: "/360/2.jpg",
 
     description: "Khu vực checkin hoa nổi bật.",
 
@@ -60,11 +75,25 @@ export const locations = [
 
     nearby: [
       {
-        name: "Bến thuyền",
+        name: "Tượng đài",
 
-        direction: "→ Đi bên phải khoảng 100m",
+        pitch: 3,
 
-        audio: "/audio/boat-guide.mp3",
+        yaw: 66,
+
+        preview: "/preview/lake.jpg",
+        direction: "Đi thẳng 500m ",
+      },
+
+      {
+        name: "Vườn hoa",
+
+        pitch: 5,
+
+        yaw: 305,
+
+        preview: "/preview/sphere.jpg",
+        direction: "Cách khoảng 500m bên phải",
       },
     ],
   },
@@ -74,7 +103,7 @@ export const locations = [
 
     slug: "statue",
 
-    type: "matterport",
+    type: "panorama",
 
     name: "Tượng đài",
 
@@ -82,7 +111,7 @@ export const locations = [
 
     y: "60.4%",
 
-    url: "https://my.matterport.com/show/?m=EZK6zFRUefb",
+    image: "/360/3.jpg",
 
     description: "Khu tượng đài trung tâm.",
 
@@ -90,11 +119,25 @@ export const locations = [
 
     nearby: [
       {
-        name: "Bến thuyền",
+        name: "Tượng đài",
 
-        direction: "↓ Đi xuống khoảng 150m",
+        pitch: 5,
 
-        audio: "/audio/boat-guide.mp3",
+        yaw: 165,
+
+        preview: "/preview/lake.jpg",
+        direction: "Đi thẳng 500m ",
+      },
+
+      {
+        name: "Vườn hoa",
+
+        pitch: 5,
+
+        yaw: 340,
+
+        preview: "/preview/sphere.jpg",
+        direction: "Đi thẳng 1Km",
       },
     ],
   },
@@ -118,71 +161,33 @@ export const locations = [
 
     description: "Panorama 360 khu hồ trung tâm.",
 
-    audio: "/audio/lake.mp3",
+    audio: "/audio/boat-guide.mp3",
 
     nearby: [
       {
         name: "Bến thuyền",
 
-        direction: "← Đi bên trái khoảng 80m",
-
         pitch: 10,
 
         yaw: 120,
 
-        preview: "/images/lake.jpg",
+        preview: "/preview/lake.jpg",
 
         audio: "/audio/boat-guide.mp3",
+        direction: "Đi thẳng 500m ",
       },
 
       {
         name: "Vườn hoa",
 
-        direction: "↑ Đi thẳng khoảng 150m",
-
         pitch: -2,
 
-        yaw: 220,
+        yaw: 250,
 
-        preview: "/images/sphere.jpg",
+        preview: "/preview/sphere.jpg",
 
         audio: "/audio/flower-guide.mp3",
-      },
-    ],
-  },
-
-  {
-    id: 5,
-
-    slug: "lake",
-
-    type: "panorama",
-
-    name: "Hồ Trung Tâm",
-
-    x: "84%",
-
-    y: "42.5%",
-
-    image: "https://pannellum.org/images/alma.jpg",
-
-    description: "Panorama 360 khu hồ trung tâm.",
-
-    audio: "/audio/lake.mp3",
-
-    nearby: [
-      {
-        name: "Tượng đài",
-
-        direction: "← Đi bên trái khoảng 80m",
-
-        pitch: 10,
-
-        yaw: 120,
-
-        preview: "/images/lake.jpg",
-
-        audio: "/audio/boat-guide.mp3",
+        direction: "Đi thẳng 500m ",
       },
     ],
   },

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // MarzipanoViewer.jsx
 
 import { useEffect, useRef } from "react";
@@ -9,24 +10,11 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
   useEffect(() => {
     if (!viewerRef.current) return;
 
-    // CLEAR VIEWER
     viewerRef.current.innerHTML = "";
-
-    // =========================
-    // CREATE VIEWER
-    // =========================
 
     const viewer = new Marzipano.Viewer(viewerRef.current);
 
-    // =========================
-    // SOURCE
-    // =========================
-
     const source = Marzipano.ImageUrlSource.fromString(scene.image);
-
-    // =========================
-    // GEOMETRY
-    // =========================
 
     const geometry = new Marzipano.EquirectGeometry([
       {
@@ -34,31 +22,20 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
       },
     ]);
 
-    // =========================
-    // VIEW LIMIT
-    // =========================
-
     const limiter = Marzipano.RectilinearView.limit.traditional(
-      1024,
-      (100 * Math.PI) / 180,
+      4096,
+      (120 * Math.PI) / 180,
     );
-
-    // =========================
-    // VIEW
-    // =========================
 
     const view = new Marzipano.RectilinearView(
       {
         yaw: 0,
         pitch: 0,
-        fov: Math.PI / 2,
+
+        fov: 1.6,
       },
       limiter,
     );
-
-    // =========================
-    // CREATE SCENE
-    // =========================
 
     const marzipanoScene = viewer.createScene({
       source,
@@ -68,49 +45,83 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
 
     marzipanoScene.switchTo();
 
-    // =========================
-    // HOTSPOTS
-    // =========================
+    let isZooming = false;
+    let lastTimestamp = 0;
+    const ZOOM_COOLDOWN = 50;
+
+    const handleWheel = (e) => {
+      e.preventDefault();
+
+      const now = Date.now();
+      if (now - lastTimestamp < ZOOM_COOLDOWN) {
+        return;
+      }
+      lastTimestamp = now;
+
+      if (isZooming) return;
+      isZooming = true;
+
+      requestAnimationFrame(() => {
+        const currentFov = view.fov();
+        const zoomSpeed = 0.03;
+        const minFov = 1;
+        const maxFov = 1.8;
+
+        if (e.deltaY > 0 && currentFov >= maxFov) {
+          isZooming = false;
+          return;
+        }
+
+        if (e.deltaY < 0 && currentFov <= minFov) {
+          isZooming = false;
+          return;
+        }
+
+        let newFov =
+          e.deltaY > 0 ? currentFov + zoomSpeed : currentFov - zoomSpeed;
+        newFov = Math.max(minFov, Math.min(maxFov, newFov));
+
+        if (Math.abs(newFov - currentFov) > 0.0001) {
+          view.setFov(newFov);
+        }
+
+        isZooming = false;
+      });
+    };
+
+    viewer
+      .domElement()
+      .addEventListener("wheel", handleWheel, { passive: false });
 
     scene.nearby?.forEach((item) => {
-      // CREATE HTML ELEMENT
-
       const element = document.createElement("div");
 
       element.className = "image-hotspot";
-
-      // HTML
-
       element.innerHTML = `
+  <div class="bubble-wrapper">
 
-        <div class="bubble-wrapper">
+    <div class="bubble-float">
 
-          <!-- LABEL -->
+      <div class="bubble-label">
+        ${item.name}
+      </div>
 
-          <div class="bubble-label">
-            ${item.name}
-          </div>
+      <div class="bubble-glow"></div>
 
-          <!-- GLOW -->
+      <div class="bubble-image">
+        <img
+          src="${item.preview}"
+          alt="${item.name}"
+        />
+      </div>
+      <div class="bubble-tooltip">
+  ${item.direction || ""}
+</div>
 
-          <div class="bubble-glow"></div>
+    </div>
 
-          <!-- IMAGE -->
-
-          <div class="bubble-image">
-
-            <img
-              src="${item.preview}"
-              alt="${item.name}"
-            />
-
-          </div>
-
-        </div>
-
-      `;
-
-      // CLICK EVENT
+  </div>
+`;
 
       element.addEventListener("click", () => {
         const found = locations.find((loc) => loc.name === item.name);
@@ -120,21 +131,26 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
         }
       });
 
-      // CREATE HOTSPOT
-
-      marzipanoScene.hotspotContainer().createHotspot(element, {
-        yaw: (item.yaw * Math.PI) / 180,
-
-        pitch: (item.pitch * Math.PI) / 180,
-      });
+      marzipanoScene.hotspotContainer().createHotspot(
+        element,
+        {
+          yaw: (item.yaw * Math.PI) / 180,
+          pitch: (item.pitch * Math.PI) / 180,
+        },
+        {
+          perspective: {
+            radius: 1200,
+          },
+        },
+      );
     });
 
-    // CLEANUP
-
     return () => {
+      viewer.domElement().removeEventListener("wheel", handleWheel);
+
       viewer.destroy();
     };
-  }, [scene, locations, onNavigate]);
+  }, [scene]);
 
   return <div ref={viewerRef} className="marzipano-viewer" />;
 }
