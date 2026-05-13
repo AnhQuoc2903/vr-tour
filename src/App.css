@@ -691,12 +691,6 @@ body {
    ANDROID FIX
 ========================= */
 
-.marzipano-viewer canvas {
-  position: relative !important;
-
-  z-index: 1 !important;
-}
-
 /* UI ALWAYS ON TOP */
 
 .mobile-actions,

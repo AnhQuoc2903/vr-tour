@@ -13,6 +13,7 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
     viewerRef.current.innerHTML = "";
 
     const viewer = new Marzipano.Viewer(viewerRef.current);
+
     viewer.domElement().style.position = "relative";
     viewer.domElement().style.zIndex = "1";
 
@@ -33,7 +34,6 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
       {
         yaw: 0,
         pitch: 0,
-
         fov: 1.6,
       },
       limiter,
@@ -47,11 +47,19 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
 
     marzipanoScene.switchTo();
 
+    // ========== ZOOM CUSTOM CHỈ HOẠT ĐỘNG KHI GIỮ CTRL ==========
     let isZooming = false;
     let lastTimestamp = 0;
     const ZOOM_COOLDOWN = 50;
 
     const handleWheel = (e) => {
+      // CHỈ xử lý zoom khi nhấn giữ phím Ctrl
+      // Không Ctrl → để Marzipano xoay bình thường
+      if (!e.ctrlKey) {
+        return; // THOÁT NGAY, không chặn gì cả
+      }
+
+      // Chặn sự kiện chỉ khi đang zoom (có Ctrl)
       e.preventDefault();
 
       const now = Date.now();
@@ -95,39 +103,30 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
       .domElement()
       .addEventListener("wheel", handleWheel, { passive: false });
 
+    // ========== TẠO HOTSPOT ==========
     scene.nearby?.forEach((item) => {
       const element = document.createElement("div");
 
       element.className = "image-hotspot";
       element.innerHTML = `
-  <div class="bubble-wrapper">
-
-    <div class="bubble-float">
-
-      <div class="bubble-label">
-        ${item.name}
-      </div>
-
-      <div class="bubble-glow"></div>
-
-      <div class="bubble-image">
-        <img
-          src="${item.preview}"
-          alt="${item.name}"
-        />
-      </div>
-      <div class="bubble-tooltip">
-  ${item.direction || ""}
-</div>
-
-    </div>
-
-  </div>
-`;
+        <div class="bubble-wrapper">
+          <div class="bubble-float">
+            <div class="bubble-label">
+              ${item.name}
+            </div>
+            <div class="bubble-glow"></div>
+            <div class="bubble-image">
+              <img src="${item.preview}" alt="${item.name}" />
+            </div>
+            <div class="bubble-tooltip">
+              ${item.direction || ""}
+            </div>
+          </div>
+        </div>
+      `;
 
       element.addEventListener("click", () => {
         const found = locations.find((loc) => loc.name === item.name);
-
         if (found) {
           onNavigate(found);
         }
@@ -147,9 +146,9 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
       );
     });
 
+    // ========== CLEANUP ==========
     return () => {
       viewer.domElement().removeEventListener("wheel", handleWheel);
-
       viewer.destroy();
     };
   }, [scene]);
