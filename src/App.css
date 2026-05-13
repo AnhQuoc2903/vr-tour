@@ -107,9 +107,9 @@ body {
 
 /* MOBILE ACTIONS */
 
-.mobile-actions {
+/* .mobile-actions {
   display: none;
-}
+} */
 
 /* MINIMAP */
 
@@ -376,10 +376,6 @@ body {
 
 @media (max-width: 768px) {
   /* HIDE DESKTOP BUTTON */
-
-  .toggle-map-btn {
-    display: none;
-  }
 
   /* MOBILE ACTIONS */
 
