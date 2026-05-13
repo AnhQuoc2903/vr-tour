@@ -128,13 +128,11 @@ export default function App() {
         </button>
       )}
 
-      {!cleanView && (
-        <div className="mobile-actions">
-          <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
+      <div className="mobile-actions">
+        <button onClick={() => setShowInfo(!showInfo)}>ℹ️</button>
 
-          <button onClick={() => setShowMap(!showMap)}>🗺️</button>
-        </div>
-      )}
+        <button onClick={() => setShowMap(!showMap)}>🗺️</button>
+      </div>
 
       <button
         className="clean-view-btn"
