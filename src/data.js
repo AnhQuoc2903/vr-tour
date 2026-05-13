@@ -86,7 +86,7 @@ export const locations = [
       },
 
       {
-        name: "Vườn hoa",
+        name: "Bến thuyền",
 
         pitch: 5,
 
@@ -119,7 +119,7 @@ export const locations = [
 
     nearby: [
       {
-        name: "Tượng đài",
+        name: "Bến thuyền",
 
         pitch: 5,
 

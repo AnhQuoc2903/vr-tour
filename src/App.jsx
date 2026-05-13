@@ -22,6 +22,7 @@ export default function App() {
   const [audioEnabled, setAudioEnabled] = useState(true);
 
   const [cleanView, setCleanView] = useState(false);
+  const [started, setStarted] = useState(false);
 
   const audioRef = useRef(null);
 
@@ -49,7 +50,13 @@ export default function App() {
     audioRef.current.load();
 
     if (audioEnabled) {
-      audioRef.current.play().catch(() => {});
+      const playPromise = audioRef.current.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.log("Autoplay bị chặn:", err);
+        });
+      }
     }
   }, [current, audioEnabled]);
 
@@ -85,6 +92,18 @@ export default function App() {
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const startExperience = async () => {
+    setStarted(true);
+
+    if (audioRef.current && audioEnabled) {
+      try {
+        await audioRef.current.play();
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -125,6 +144,12 @@ export default function App() {
         <button className="toggle-map-btn" onClick={() => setShowMap(!showMap)}>
           {showMap ? "Ẩn bản đồ" : "Hiện bản đồ"}
         </button>
+      )}
+
+      {!started && (
+        <div className="start-screen">
+          <button onClick={startExperience}>🎧 Bắt đầu trải nghiệm</button>
+        </div>
       )}
 
       {!cleanView && (
