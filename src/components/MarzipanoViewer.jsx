@@ -13,6 +13,8 @@ export default function MarzipanoViewer({ scene, locations, onNavigate }) {
     viewerRef.current.innerHTML = "";
 
     const viewer = new Marzipano.Viewer(viewerRef.current);
+    viewer.domElement().style.position = "relative";
+    viewer.domElement().style.zIndex = "1";
 
     const source = Marzipano.ImageUrlSource.fromString(scene.image);
 

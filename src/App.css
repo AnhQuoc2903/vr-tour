@@ -23,6 +23,10 @@ body {
 .viewer {
   width: 100%;
   height: 100%;
+
+  position: relative;
+
+  z-index: 1;
 }
 
 .viewer iframe {
@@ -486,11 +490,15 @@ body {
 
 .marzipano-viewer {
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
 
   overflow: hidden;
 
   touch-action: none;
+
+  position: relative;
+
+  z-index: 1;
 }
 /* =========================================
    HOTSPOT
@@ -837,5 +845,47 @@ body {
     right: 10px;
 
     bottom: 20px;
+  }
+}
+
+/* =========================
+   ANDROID FIX
+========================= */
+
+.marzipano-viewer canvas {
+  position: relative !important;
+
+  z-index: 1 !important;
+}
+
+/* UI ALWAYS ON TOP */
+
+.mobile-actions,
+.clean-view-btn,
+.minimap,
+.info-panel {
+  position: fixed !important;
+
+  z-index: 999999 !important;
+
+  transform: translate3d(0, 0, 9999px);
+}
+
+/* FIX GPU */
+
+.mobile-actions button,
+.clean-view-btn {
+  backface-visibility: hidden;
+
+  transform: translateZ(0);
+}
+
+/* ANDROID BLUR BUG */
+
+@media (max-width: 768px) {
+  .mobile-actions button,
+  .clean-view-btn,
+  .minimap {
+    backdrop-filter: none !important;
   }
 }
