@@ -14,9 +14,12 @@ export const locations = [
 
     y: "11.8%",
 
+    showOnMap: true,
+
     image: "/360/1.jpg",
 
-    audio: "/audio/boat.mp3",
+    bgAudio: "/audio/boat.mp3",
+    voiceAudio: "/audio/1.mp3",
     description: "Khu vực checkin nổi bật.",
 
     nearby: [
@@ -63,6 +66,8 @@ export const locations = [
 
     name: "Vườn hoa",
 
+    showOnMap: true,
+
     x: "43.9%",
 
     y: "39%",
@@ -71,7 +76,8 @@ export const locations = [
 
     description: "Khu vực checkin hoa nổi bật.",
 
-    audio: "/audio/flower.mp3",
+    bgAudio: "/audio/flower.mp3",
+    voiceAudio: "/audio/3.mp3",
 
     nearby: [
       {
@@ -107,6 +113,8 @@ export const locations = [
 
     name: "Tượng đài",
 
+    showOnMap: true,
+
     x: "44%",
 
     y: "60.4%",
@@ -115,7 +123,7 @@ export const locations = [
 
     description: "Khu tượng đài trung tâm.",
 
-    audio: "/audio/statue.mp3",
+    bgAudio: "/audio/statue.mp3",
 
     nearby: [
       {
@@ -153,6 +161,8 @@ export const locations = [
 
     name: "Hồ Trung Tâm",
 
+    showOnMap: true,
+
     x: "74%",
 
     y: "42.5%",
@@ -161,7 +171,7 @@ export const locations = [
 
     description: "Panorama 360 khu hồ trung tâm.",
 
-    audio: "/audio/boat-guide.mp3",
+    bgAudio: "/audio/boat-guide.mp3",
 
     nearby: [
       {

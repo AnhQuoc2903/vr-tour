@@ -24,7 +24,9 @@ export default function App() {
   const [cleanView, setCleanView] = useState(false);
   const [started, setStarted] = useState(false);
 
-  const audioRef = useRef(null);
+  const bgAudioRef = useRef(null);
+
+  const voiceAudioRef = useRef(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -41,22 +43,38 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!audioRef.current) return;
+    if (!audioEnabled) return;
 
-    audioRef.current.pause();
+    // BG AUDIO
+    if (bgAudioRef.current && current.bgAudio) {
+      bgAudioRef.current.pause();
 
-    audioRef.current.currentTime = 0;
+      bgAudioRef.current.currentTime = 0;
 
-    audioRef.current.load();
+      bgAudioRef.current.load();
 
-    if (audioEnabled) {
-      const playPromise = audioRef.current.play();
+      bgAudioRef.current.volume = 0.3;
 
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.log("Autoplay bị chặn:", err);
+      bgAudioRef.current.play().catch((err) => {
+        console.log("BG autoplay blocked:", err);
+      });
+    }
+
+    // VOICE AUDIO
+    if (voiceAudioRef.current && current.voiceAudio) {
+      voiceAudioRef.current.pause();
+
+      voiceAudioRef.current.currentTime = 0;
+
+      voiceAudioRef.current.load();
+
+      voiceAudioRef.current.volume = 1;
+
+      setTimeout(() => {
+        voiceAudioRef.current.play().catch((err) => {
+          console.log("Voice autoplay blocked:", err);
         });
-      }
+      }, 1000);
     }
   }, [current, audioEnabled]);
 
@@ -66,13 +84,27 @@ export default function App() {
     setCurrent(location);
   }, []);
 
-  const toggleAudio = () => {
-    if (!audioRef.current) return;
+  const toggleAudio = async () => {
+    if (!bgAudioRef.current || !voiceAudioRef.current) return;
 
+    // TẮT
     if (audioEnabled) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch(() => {});
+      bgAudioRef.current.pause();
+
+      voiceAudioRef.current.pause();
+    }
+
+    // PHÁT
+    else {
+      try {
+        await bgAudioRef.current.play();
+
+        setTimeout(() => {
+          voiceAudioRef.current.play().catch(() => {});
+        }, 1000);
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     setAudioEnabled(!audioEnabled);
@@ -98,12 +130,18 @@ export default function App() {
   const startExperience = async () => {
     setStarted(true);
 
-    if (audioRef.current && audioEnabled) {
-      try {
-        await audioRef.current.play();
-      } catch (err) {
-        console.log(err);
-      }
+    if (!audioEnabled) return;
+
+    try {
+      // NHẠC NỀN
+      await bgAudioRef.current?.play();
+
+      // THUYẾT MINH
+      setTimeout(() => {
+        voiceAudioRef.current?.play().catch(() => {});
+      }, 1000);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -125,15 +163,17 @@ export default function App() {
       {!cleanView && (
         <div className={`info-panel ${showInfo ? "show" : ""}`}>
           <h2>{current.name}</h2>
-
           <p className="description">{current.description}</p>
-
           {/* AUDIO */}
-
-          <audio ref={audioRef}>
-            <source src={current.audio} type="audio/mpeg" />
+          <audio ref={bgAudioRef} loop>
+            {" "}
+            <source src={current.bgAudio} type="audio/mpeg" />{" "}
+          </audio>{" "}
+          {/* THUYẾT MINH */}{" "}
+          <audio ref={voiceAudioRef}>
+            {" "}
+            <source src={current.voiceAudio} type="audio/mpeg" />{" "}
           </audio>
-
           <button className="audio-toggle" onClick={toggleAudio}>
             {audioEnabled ? "🔊" : "🔇"}
           </button>
@@ -199,19 +239,21 @@ export default function App() {
 
             {/* POINTS */}
 
-            {locations.map((item) => (
-              <button
-                key={item.id}
-                className={`point ${current.id === item.id ? "active" : ""}`}
-                style={{
-                  left: item.x,
-                  top: item.y,
-                }}
-                onClick={() => handleNavigate(item)}
-              >
-                ●
-              </button>
-            ))}
+            {locations
+              .filter((item) => item.showOnMap !== false)
+              .map((item) => (
+                <button
+                  key={item.id}
+                  className={`point ${current.id === item.id ? "active" : ""}`}
+                  style={{
+                    left: item.x,
+                    top: item.y,
+                  }}
+                  onClick={() => handleNavigate(item)}
+                >
+                  ●
+                </button>
+              ))}
           </div>
         </div>
       )}
