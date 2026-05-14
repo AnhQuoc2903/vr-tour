@@ -45,7 +45,10 @@ export default function App() {
   useEffect(() => {
     if (!audioEnabled) return;
 
+    // =========================
     // BG AUDIO
+    // =========================
+
     if (bgAudioRef.current && current.bgAudio) {
       bgAudioRef.current.pause();
 
@@ -60,21 +63,28 @@ export default function App() {
       });
     }
 
+    // =========================
     // VOICE AUDIO
-    if (voiceAudioRef.current && current.voiceAudio) {
+    // =========================
+
+    if (voiceAudioRef.current) {
+      // reset trước
       voiceAudioRef.current.pause();
 
       voiceAudioRef.current.currentTime = 0;
 
-      voiceAudioRef.current.load();
+      // CHỈ PLAY KHI CÓ FILE
+      if (current.voiceAudio) {
+        voiceAudioRef.current.load();
 
-      voiceAudioRef.current.volume = 1;
+        voiceAudioRef.current.volume = 1;
 
-      setTimeout(() => {
-        voiceAudioRef.current.play().catch((err) => {
-          console.log("Voice autoplay blocked:", err);
-        });
-      }, 1000);
+        setTimeout(() => {
+          voiceAudioRef.current.play().catch((err) => {
+            console.log("Voice autoplay blocked:", err);
+          });
+        }, 1000);
+      }
     }
   }, [current, audioEnabled]);
 
@@ -85,23 +95,27 @@ export default function App() {
   }, []);
 
   const toggleAudio = async () => {
-    if (!bgAudioRef.current || !voiceAudioRef.current) return;
+    if (!bgAudioRef.current) return;
 
     // TẮT
     if (audioEnabled) {
       bgAudioRef.current.pause();
 
-      voiceAudioRef.current.pause();
+      voiceAudioRef.current?.pause();
     }
 
     // PHÁT
     else {
       try {
+        // BG luôn phát
         await bgAudioRef.current.play();
 
-        setTimeout(() => {
-          voiceAudioRef.current.play().catch(() => {});
-        }, 1000);
+        // voice chỉ phát nếu có
+        if (current.voiceAudio) {
+          setTimeout(() => {
+            voiceAudioRef.current?.play().catch(() => {});
+          }, 1000);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -133,13 +147,15 @@ export default function App() {
     if (!audioEnabled) return;
 
     try {
-      // NHẠC NỀN
+      // BG
       await bgAudioRef.current?.play();
 
-      // THUYẾT MINH
-      setTimeout(() => {
-        voiceAudioRef.current?.play().catch(() => {});
-      }, 1000);
+      // Voice chỉ play nếu có
+      if (current.voiceAudio) {
+        setTimeout(() => {
+          voiceAudioRef.current?.play().catch(() => {});
+        }, 1000);
+      }
     } catch (err) {
       console.log(err);
     }
